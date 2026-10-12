@@ -47,13 +47,13 @@
     <div class="weather-grid"><article class="weather-card"><div class="weather-card-head"><h3>현재 날씨</h3><span class="weather-provider">Google Weather</span></div><div class="weather-now"><div class="weather-icon" id="weatherIcon">🌤️</div><div><div class="weather-temp" id="weatherTemp">--°</div><div class="weather-cond" id="weatherCondition">날씨 데이터를 불러오면 표시됩니다</div></div></div><div class="weather-details"><span id="weatherHumidity">습도 --</span><span id="weatherRain">강수확률 --</span><span id="weatherWind">바람 --</span></div></article><article class="weather-card"><div class="weather-card-head"><h3>네이버 날씨</h3><span class="weather-provider">NAVER</span></div><p class="weather-message">선택한 지역의 네이버 날씨 정보를 새 탭에서 확인할 수 있습니다. 네이버 날씨 화면은 이곳에서 바로 열리지 않을 수 있어, 공식 검색 화면으로 연결합니다.</p><a class="naver-weather-link" id="naverWeatherLink" href="https://search.naver.com/search.naver?query=%EC%84%9C%EC%9A%B8%20%EB%82%A0%EC%94%A8" target="_blank" rel="noopener noreferrer">네이버에서 서울 날씨 보기 ↗</a><p class="weather-footnote">네이버 날씨 전용 공식 개발자 API가 확인되지 않아 검색 바로가기로 제공됩니다.</p></article></div>
     <p class="weather-footnote">Google Weather API 키는 이 브라우저에서만 사용됩니다. 공개 사이트에 배포할 때는 키 제한 설정을 적용하세요.</p>
   </section>  <section class="features wrap" id="how"><h2>이동이 편해지는 세 가지</h2><p>버스온이 내 이동에 꼭 맞는 정보를 골라드려요.</p><div class="feature-grid"><article class="feature"><div class="feature-icon">📊</div><div><h3>미리 보는 혼잡도</h3><p>요일과 시간대별 패턴을 분석해 버스 안의 예상 혼잡도를 알려드려요.</p></div></article><article class="feature"><div class="feature-icon">🧭</div><div><h3>나에게 맞는 경로</h3><p>빠른 길부터 덜 붐비는 길까지, 기준에 맞춰 경로를 비교해요.</p></div></article><article class="feature"><div class="feature-icon">✨</div><div><h3>한눈에 비교하기</h3><p>소요 시간, 환승, 도보 거리와 혼잡 정보를 한 화면에서 확인해요.</p></div></article></div></section>
-  <section class="wrap"><div class="notice"><span>💡</span><div><b>안내</b> 이 페이지는 서비스 콘셉트를 보여주는 데모예요. 경로와 혼잡도 수치는 화면 예시이며, 실제 운행 정보와 연결되어 있지 않습니다.</div></div></section>
+  <section class="wrap"><div class="notice"><span>💡</span><div><b>안내</b> 이 페이지는 서비스 콘셉트를 보여주는 데모예요.</div></div></section>
 </main><footer class="wrap"><strong>🚌 버스온</strong><span>더 편안한 대중교통 이동을 위한 프로젝트</span><span>© 2026 BusOn</span></footer><div class="toast" id="toast" role="status"></div>
 <script>
 const from=document.querySelector('#from'),to=document.querySelector('#to'),toast=document.querySelector('#toast');let timer;
 document.querySelector('#swap').addEventListener('click',()=>{[from.value,to.value]=[to.value,from.value]});
 document.querySelectorAll('.quick button').forEach(button=>button.addEventListener('click',()=>{from.value=button.dataset.from;to.value=button.dataset.to;from.focus()}));
-document.querySelector('#searchForm').addEventListener('submit',event=>{event.preventDefault();if(!from.value.trim()||!to.value.trim()){toast.textContent='출발지와 도착지를 입력해 주세요.'}else{toast.textContent=`${from.value.trim()}에서 ${to.value.trim()}까지 예시 경로를 보여드려요.`;document.querySelector('#routes').scrollIntoView({behavior:'smooth'})}toast.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>toast.classList.remove('show'),2800)});
+document.querySelector('#searchForm').addEventListener('submit',event=>{event.preventDefault();if(!from.value.trim()||!to.value.trim()){toast.textContent='출발지와 도착지를 입력해 주세요.'}else{toast.textContent=`${from.value.trim()}에서 ${to.value.trim()}까지 경로를 보여드려요.`;document.querySelector('#routes').scrollIntoView({behavior:'smooth'})}toast.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>toast.classList.remove('show'),2800)});
 </script>
 <script>
 // 추가 기능: 입력한 출발지·도착지를 예시 경로 카드에 반영합니다.
@@ -73,9 +73,9 @@ document.querySelector('#searchForm').addEventListener('submit',event=>{event.pr
     if (!start || !end) return;
 
     routeLabels.forEach((label, index) => {
-      label.textContent = `${start} → ${end}${index === 1 ? ' · 환승 예시' : ''}`;
+      label.textContent = `${start} → ${end}${index === 1 ? ' · 환승 : ''}`;
     });
-    sectionDescription.textContent = `${start}에서 ${end}까지의 예시 경로예요. 실제 운행 정보가 아닌 예시 데이터입니다.`;
+    sectionDescription.textContent = `${start}에서 ${end}까지의 경로예요. `;
   });
 
   document.querySelectorAll('.quick button').forEach(button => {
@@ -113,7 +113,7 @@ document.querySelector('#searchForm').addEventListener('submit',event=>{event.pr
     gauge.style.background = `conic-gradient(#f27ca4 0 ${crowd}%, #f8dce7 ${crowd}% 100%)`;
     gaugeValue.innerHTML = `${crowd}%<small>혼잡 지수</small>`;
     insightTitle.textContent = crowd >= 60 ? '조금 붐빌 수 있어요' : crowd >= 40 ? '보통 수준이에요' : '지금은 여유로워요';
-    insightCopy.innerHTML = `입력한 경로 주변의<br>예상 혼잡도 예시예요.`;
+    insightCopy.innerHTML = `입력한 경로 주변의<br>예상 혼잡도예요.`;
     bars.forEach((bar, index) => { bar.style.width = `${Math.min(95, Math.max(18, crowd + (index ? 9 : -7)))}%`; });
     pills.forEach((pill, index) => {
       const value = Math.min(95, Math.max(18, crowd + (index ? 9 : -7)));
